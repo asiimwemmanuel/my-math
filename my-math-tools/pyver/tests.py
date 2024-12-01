@@ -8,16 +8,15 @@ from gpt_tools import gpt
 
 # Helper function to generate a random progression with a given order and size
 def generate_progression(order, size):
-    base_seq = [float(i) for i in range(1, size+1)]
+    base_seq = [float(i) for i in range(1, size + 1)]
     progression = base_seq.copy()
 
     for i in range(1, order):
-        diff_table = [progression[j] - progression[j-1]
-                      for j in range(1, size)]
+        diff_table = [progression[j] - progression[j - 1] for j in range(1, size)]
         progression = [progression[0]] + diff_table
         random.shuffle(diff_table)
         for j in range(1, size):
-            progression[j] = progression[j-1] + diff_table[j-1]
+            progression[j] = progression[j - 1] + diff_table[j - 1]
 
     return progression
 
@@ -38,13 +37,13 @@ def test_gpt(time_in_abundance: bool) -> None:
                 # Randomize number of decimal places and place values in the progression
                 for l, p in enumerate(progression_list):
                     dp = l
-                    pv = 2 ** dp
+                    pv = 2**dp
                     progression_list[l] = [round(elem / pv, dp) for elem in p]
 
                 for j in range(1, 51):
-                    for n in range(1, size+1):
-                        expected = progression_list[j-1][n-1]
-                        actual = gpt.gpt(progression_list[j-1], n)
+                    for n in range(1, size + 1):
+                        expected = progression_list[j - 1][n - 1]
+                        actual = gpt.gpt(progression_list[j - 1], n)
                         if abs(expected - actual) < 1e-8:
                             num_passed += 1
                         num_tests += 1
@@ -63,13 +62,13 @@ def test_gpt(time_in_abundance: bool) -> None:
                 # Randomize number of decimal places and place values in the progression
                 for l, p in enumerate(progression_list):
                     dp = l
-                    pv = 2 ** dp
+                    pv = 2**dp
                     progression_list[l] = [round(elem / pv, dp) for elem in p]
 
                 for j in range(1, 6):
-                    for n in range(1, size+1):
-                        expected = progression_list[j-1][n-1]
-                        actual = gpt.gpt(progression_list[j-1], n)
+                    for n in range(1, size + 1):
+                        expected = progression_list[j - 1][n - 1]
+                        actual = gpt.gpt(progression_list[j - 1], n)
                         if abs(expected - actual) < 1e-8:
                             num_passed += 1
                         num_tests += 1
@@ -78,7 +77,11 @@ def test_gpt(time_in_abundance: bool) -> None:
 
 
 if __name__ == "__main__":
-    choice = True if input("Do you want thorough or quick tests? (t/q): ").lower() == 't' else False
+    choice = (
+        True
+        if input("Do you want thorough or quick tests? (t/q): ").lower() == "t"
+        else False
+    )
     start_time = time.time()
     test_gpt(choice)
     end_time = time.time()

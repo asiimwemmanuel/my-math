@@ -10,7 +10,7 @@ def mathematical_progression_analysis(lst, param):
             power = order
 
             for coefficient in lst:
-                result += coefficient * (n ** power)
+                result += coefficient * (n**power)
                 power -= 1
 
             return result
@@ -30,4 +30,4 @@ def mathematical_progression_analysis(lst, param):
 
 
 for i in range(100):
-    print(mathematical_progression_analysis([1,4,9], i))
+    print(mathematical_progression_analysis([1, 4, 9], i))

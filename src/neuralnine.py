@@ -21,5 +21,5 @@ x_vals_poly = poly_features.transform(x_vals)
 y_vals = reg.predict(x_vals_poly)
 
 plt.scatter(x, y)
-plt.plot(x_vals, y_vals, color='r')
-plt.savefig('fig.png')
+plt.plot(x_vals, y_vals, color="r")
+plt.savefig("fig.png")

@@ -4,6 +4,7 @@ import random
 from memory_profiler import memory_usage
 from my_math_tools import MyMathTools
 
+
 def generate_base_sequence(deg):
     base_sequence = [1]
     for i in range(1, deg + 2):
@@ -11,19 +12,22 @@ def generate_base_sequence(deg):
         base_sequence.append(coeff)
     return base_sequence
 
+
 def generate_expression(base_sequence) -> float:
     exp_list = base_sequence.copy()
     random.shuffle(exp_list)
     return exp_list
 
+
 def evaluate_expression(exp_list, n):
     result = 0.0
     for i in range(0, len(exp_list), 2):
         coeff = exp_list[i]
-        exp = exp_list[i+1]
-        term = coeff * (n ** exp)
+        exp = exp_list[i + 1]
+        term = coeff * (n**exp)
         result += term
     return result
+
 
 def evaluate_algorithm(method, progression, param_type):
     nth_term = MyMathTools.NthTerm(progression)
@@ -34,6 +38,7 @@ def evaluate_algorithm(method, progression, param_type):
     else:
         result = nth_term.plot_progression_graph()
     return result
+
 
 def run_tests(test_type):
     degrees = list(range(1, 101))
@@ -50,7 +55,9 @@ def run_tests(test_type):
         base_sequence = generate_base_sequence(deg)
         for batch in range(batch_size):
             expression = generate_expression(base_sequence)
-            progression = [evaluate_expression(expression, n) for n in range(1, deg + 2)]
+            progression = [
+                evaluate_expression(expression, n) for n in range(1, deg + 2)
+            ]
 
             # Test with integer parameter
             expected_int = evaluate_algorithm(1, progression, "int")
@@ -90,6 +97,7 @@ def run_tests(test_type):
 
     # Print test results
     print(f"Tests Passed: {passed_tests}/{total_tests}")
+
 
 # User input for test type
 test_type = input("Choose test type (THOROUGH/QUICK): ")

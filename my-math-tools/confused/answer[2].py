@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def find_nth_term(n, x_values, y_values, display_expression=False):
     coefficients = np.polyfit(x_values, y_values, len(x_values) - 1)
     polynomial = np.poly1d(coefficients)
@@ -10,6 +11,7 @@ def find_nth_term(n, x_values, y_values, display_expression=False):
         print(f"The interpolating function is: {expression}")
 
     return nth_term
+
 
 # Example usage:
 x_values = [1, 2, 3, 4, 5]  # X-values of the known points

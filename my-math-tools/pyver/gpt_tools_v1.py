@@ -3,9 +3,12 @@ import numpy as np
 from scipy.interpolate import lagrange
 from numpy.polynomial.polynomial import Polynomial
 
+
 class gpt:
     @staticmethod
-    def gpt_alg_v0(data: List[float], n: Union[int, bool] = False) -> Union[float, None]:
+    def gpt_alg_v0(
+        data: List[float], n: Union[int, bool] = False
+    ) -> Union[float, None]:
         if n == True:
             # return a polynomial fit instead of a float
             x = np.array(list(range(1, len(data) + 1)))

@@ -2,6 +2,7 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 
+
 def fit_polynomial(data_dict, max_degree=4):
     """
     Fits polynomial functions of degrees 0 to max_degree to the given data points

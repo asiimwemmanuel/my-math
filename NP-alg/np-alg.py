@@ -4,63 +4,76 @@
 # Time: O(n^2)
 # Space: O(k(k+1)/2)
 class NP_alg:
-	def np_alg(prog: list, n: int) -> float:
+    def np_alg(prog: list, n: int) -> float:
+        # k = order + 1. Assumes prog[] contains the NECESSARY terms only
+        k = len(prog)
 
-		# k = order + 1. Assumes prog[] contains the NECESSARY terms only
-		k = len(prog)
+        # check if vars are valid
+        if n <= 0 or k <= 1:
+            return None
 
-		# check if vars are valid
-		if n <= 0 or k <= 1:
-			return None
+        # due to list indexing, the nth term is found at prog[n-1]
+        n -= 1
 
-		# due to list indexing, the nth term is found at prog[n-1]
-		n -= 1
+        # Return the nth term if already found in prog[]
+        if n < k:
+            return prog[n]
 
-		# Return the nth term if already found in prog[]
-		if n < k:
-			return prog[n]
-		
-		# To save time
-		if len(prog) == 2:
-			# formula for the nth term of an arithmetic progression: a + (n-1)*d
-			return prog[0] + (n - 1) * (prog[1] - prog[0])
-		elif len(prog) == 3:
-			# formula for the nth term of a quadratic progression: a + (n-1)d + (n-1)(n-2)/2 * c
-			return prog[0] + (n - 1) * (prog[1] - prog[0]) + (n - 1) * (n - 2) / 2 * (prog[2] - 2 * prog[1] + prog[0])
-		elif len(prog) == 4:
-			# formula for the nth term of a cubic progression: a + (n-1)d + (n-1)(n-2)/2 * c1 + (n-1)(n-2)(n-3)/6 * c2
-			return (3 * prog[3] - 6 * prog[2] + 4 * prog[1] - prog[0]) * (n - 1) * (n - 2) * (n - 3) / 6 \
-					+ (prog[2] - 3 * prog[1] + 3 * prog[0] - prog[3]) * (n - 1) * (n - 2) / 2 \
-					+ (prog[1] - prog[0]) * (n - 1) \
-					+ prog[0]
+        # To save time
+        if len(prog) == 2:
+            # formula for the nth term of an arithmetic progression: a + (n-1)*d
+            return prog[0] + (n - 1) * (prog[1] - prog[0])
+        elif len(prog) == 3:
+            # formula for the nth term of a quadratic progression: a + (n-1)d + (n-1)(n-2)/2 * c
+            return (
+                prog[0]
+                + (n - 1) * (prog[1] - prog[0])
+                + (n - 1) * (n - 2) / 2 * (prog[2] - 2 * prog[1] + prog[0])
+            )
+        elif len(prog) == 4:
+            # formula for the nth term of a cubic progression: a + (n-1)d + (n-1)(n-2)/2 * c1 + (n-1)(n-2)(n-3)/6 * c2
+            return (
+                (3 * prog[3] - 6 * prog[2] + 4 * prog[1] - prog[0])
+                * (n - 1)
+                * (n - 2)
+                * (n - 3)
+                / 6
+                + (prog[2] - 3 * prog[1] + 3 * prog[0] - prog[3])
+                * (n - 1)
+                * (n - 2)
+                / 2
+                + (prog[1] - prog[0]) * (n - 1)
+                + prog[0]
+            )
 
-		else:
-			# Initialize the first row of the difference table
-			table = [[prog[i] for i in range(k)]]
+        else:
+            # Initialize the first row of the difference table
+            table = [[prog[i] for i in range(k)]]
 
-			# Calculate the other rows in the  difference table
-			for i in range(k-1):
-				row = []
-				for j in range(k-i-1):
-					diff = table[i][j+1] - table[i][j]
-					row.append(diff)
-				table.append(row)
+            # Calculate the other rows in the  difference table
+            for i in range(k - 1):
+                row = []
+                for j in range(k - i - 1):
+                    diff = table[i][j + 1] - table[i][j]
+                    row.append(diff)
+                table.append(row)
 
-			# Calculate the nth term using the difference table. This part needs investigation
-			term = table[k-1][0]
-			for i in range(1, k):
-				prod = 1
-				for j in range(i):
-					prod *= (n - j)
-				term += (prod * table[k-i-1][0])
+            # Calculate the nth term using the difference table. This part needs investigation
+            term = table[k - 1][0]
+            for i in range(1, k):
+                prod = 1
+                for j in range(i):
+                    prod *= n - j
+                term += prod * table[k - i - 1][0]
 
-		return term
+        return term
+
 
 # ------------------------------------ TESTING ------------------------------------
 test = NP_alg()
 # DEMO
 for i in range(10**4):
-	print(i , "->", test.np_alg([1, 8, 27, 64],i))
+    print(i, "->", test.np_alg([1, 8, 27, 64], i))
 
 # test for k = 1, 2, 3 ... 10**4 (for quick testing).
 # The upper bound changes depending on the type of testing.
